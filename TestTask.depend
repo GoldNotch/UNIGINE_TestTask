@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1660906828 source:d:\projects\testtask\main.cpp
+	<cstdio>
+	"LinMath.hpp"
+
+1660905938 source:d:\projects\testtask\unit.cpp
+
+1660907078 d:\projects\testtask\linmath.hpp
+
