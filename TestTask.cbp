@@ -31,8 +31,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Level.hpp" />
 		<Unit filename="LinMath.hpp" />
-		<Unit filename="Unit.cpp" />
+		<Unit filename="Quadtree.hpp" />
 		<Unit filename="Unit.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>

@@ -1,7 +1,10 @@
 #pragma once
 #include <cmath>
+#include <cstdlib>
+#include <string>
 
-float fast_sqrt(float number)
+
+static inline float fast_sqrt(float number)
 {
 	long i;
 	float x2, y;
@@ -25,32 +28,70 @@ struct vec2D
 	vec2D(float x, float y) : x(x), y(y){}
 	vec2D(const vec2D& other) : x(other.x), y(other.y){}//copy constructor
 	vec2D& operator=(const vec2D& other){
-		return *this = vec2D(other);
+	    x = other.x;
+	    y = other.y;
+		return *this;
 	}
+	~vec2D(){};
 
 	//----------------- math operators --------------
-	vec2D operator+(const vec2D& other) const
+	inline vec2D operator+(const vec2D& other) const noexcept
 	{
 		return vec2D(x + other.x, y + other.y);
 	}
-	vec2D operator*(float value) const
+	inline vec2D operator-(const vec2D& other) const noexcept
+	{
+		return vec2D(x - other.x, y - other.y);
+	}
+	inline vec2D operator*(float value) const noexcept
 	{
 		return vec2D(x * value, y * value);
 	}
-	float length() const
+	inline vec2D operator/(float value) const noexcept
+	{
+		return vec2D(x / value, y / value);
+	}
+	inline bool operator!=(const vec2D& other) const noexcept
+	{
+		return x != other.x || y != other.y;
+	}
+    inline vec2D makePerpendicular() const noexcept
+    {
+        return vec2D(y, -x);
+    }
+	inline vec2D& translate(const vec2D& offset) noexcept
+	{
+        x += offset.x;
+        y += offset.y;
+        return *this;
+	}
+	inline vec2D& scale(float factor)
+	{
+        x *= factor;
+        y *= factor;
+        return *this;
+	}
+	inline vec2D& normalize()
+	{
+        return scale(1.0f / length());
+	}
+	inline constexpr float length() const noexcept
 	{
 		return std::sqrt(x * x + y * y);
 	}
-	float fast_length() const
+	inline float fast_length() const noexcept
 	{
-		return std::sqrt(x * x + y * y);
+		return fast_sqrt(x * x + y * y);
 	}
 
 	//------------ math functions ----------------
-	static float dot(const vec2D& vec1, const vec2D& vec2) const
+	static inline float dot(const vec2D& vec1, const vec2D& vec2)
 	{
 		return vec1.x * vec2.x + vec1.y * vec2.y;
 	}
 
 	float x, y;
 };
+
+//----------- constants ----------------
+static const vec2D zero_vec = vec2D(0.0f, 0.0f);
