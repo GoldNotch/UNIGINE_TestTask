@@ -21,6 +21,11 @@ static inline float fast_sqrt(float number)
 	return 1.0f / y;
 }
 
+inline static constexpr float DegreesToRadians(float degree) noexcept
+{
+    return 3.1415926f * degree / 180.0f;
+}
+
 struct vec2D
 {
 	//--------------- constructors ---------------

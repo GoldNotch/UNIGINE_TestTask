@@ -2,29 +2,53 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="Level.hpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="Quadtree.hpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1310" topLine="34" />
+			<Cursor1 position="1909" topLine="44" />
 		</Cursor>
 		<Folding>
-			<Collapse line="74" />
-			<Collapse line="79" />
-		</Folding>
-	</File>
-	<File name="Quadtree.hpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1935" topLine="50" />
-		</Cursor>
-		<Folding>
-			<Collapse line="13" />
-			<Collapse line="106" />
-			<Collapse line="114" />
+			<Collapse line="55" />
+			<Collapse line="104" />
 		</Folding>
 	</File>
 	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="578" topLine="15" />
+			<Cursor1 position="1177" topLine="28" />
 		</Cursor>
+	</File>
+	<File name="Level.hpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1144" topLine="22" />
+		</Cursor>
+		<Folding>
+			<Collapse line="11" />
+			<Collapse line="16" />
+			<Collapse line="34" />
+			<Collapse line="42" />
+			<Collapse line="48" />
+		</Folding>
+	</File>
+	<File name="ThreadPool.hpp" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1078" topLine="34" />
+		</Cursor>
+	</File>
+	<File name="LinMath.hpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="688" topLine="15" />
+		</Cursor>
+		<Folding>
+			<Collapse line="47" />
+			<Collapse line="51" />
+			<Collapse line="55" />
+			<Collapse line="59" />
+			<Collapse line="63" />
+			<Collapse line="67" />
+			<Collapse line="73" />
+			<Collapse line="79" />
+			<Collapse line="87" />
+			<Collapse line="93" />
+		</Folding>
 	</File>
 	<File name="Unit.hpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
@@ -33,23 +57,6 @@
 		<Folding>
 			<Collapse line="11" />
 			<Collapse line="16" />
-		</Folding>
-	</File>
-	<File name="LinMath.hpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="586" topLine="15" />
-		</Cursor>
-		<Folding>
-			<Collapse line="42" />
-			<Collapse line="46" />
-			<Collapse line="50" />
-			<Collapse line="54" />
-			<Collapse line="58" />
-			<Collapse line="64" />
-			<Collapse line="70" />
-			<Collapse line="74" />
-			<Collapse line="78" />
-			<Collapse line="84" />
 		</Folding>
 	</File>
 </CodeBlocks_layout_file>

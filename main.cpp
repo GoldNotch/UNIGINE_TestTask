@@ -19,7 +19,7 @@ static inline vec2D randomVec2D(float min = -1.0f, float max = 1.0f)
 int main()
 {
     srand(time(NULL));
-    const size_t UnitsCount = 10000;
+    const size_t UnitsCount = 3000;
     const float FOV = 135.0f;
     const float view_distance = 2.0f;
     const float max_scene_size = 10.0f;
@@ -39,7 +39,7 @@ int main()
                         viewed_units_count[id] = l.GetViewedUnitsCount(unit);
                   });
 
-    for(size_t i = 0; i < UnitsCount; ++i)
-        printf("unit %llu: %llu\n", i, viewed_units_count[i]);
+    /*for(size_t i = 0; i < UnitsCount; ++i)
+        printf("unit %llu: %llu\n", i, viewed_units_count[i]);*/
 	return 0;
 }

@@ -52,7 +52,7 @@ public:
     }
 
     using PointProcessingFunc = std::function<void(const vec2D& point, const T* object_weak_ptr)>;
-    int ForEachPointInBB(BoundingBox area_bbox, PointProcessingFunc process_point) const
+    int ForEachPointInBB(const BoundingBox& area_bbox, const PointProcessingFunc& process_point) const
     {
         if (!root.bbox.Intersects(area_bbox))
             return 0;
