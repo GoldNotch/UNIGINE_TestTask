@@ -25,8 +25,8 @@ inline static bool IsPointInTriangle(const vec2D& p, const vec2D& v1, const vec2
 class Level
 {
 public:
-    Level(size_t units_count, float scene_size, size_t threads_count = 1) :
-        quadtree(scene_size), thread_pool(threads_count)
+    Level(size_t units_count, float scene_size, ThreadPool* thread_pool = nullptr) :
+        quadtree(scene_size), thread_pool(thread_pool)
     {
         units.reserve(units_count);
     };
@@ -41,11 +41,18 @@ public:
     using UnitProcessingFunc = std::function<void (size_t id, const Unit& unit)>;
     void ForEachUnit(const UnitProcessingFunc& process_unit) const
     {
-        for(size_t i = 0; i < units.size(); ++i)
-            process_unit(i, units[i]);
+        if (thread_pool)
+            for(size_t i = 0; i < units.size(); ++i){
+                auto& unit = units[i];
+                thread_pool->QueueTask([=]
+                                       {process_unit(i, unit);});
+            }
+        else
+            for(size_t i = 0; i < units.size(); ++i)
+                process_unit(i, units[i]);
     }
 
-    size_t GetViewedUnitsCount(const Unit& unit) const
+    size_t GetViewedUnitsCount(const Unit& unit)
     {
         //build field of view as triangle with vertices v1, v2, v3
         vec2D v1, v2, v3;
@@ -66,8 +73,9 @@ public:
         area_bbox.width = right - area_bbox.left;
         area_bbox.height = area_bbox.top - bottom;
         size_t units_in_fov = 0;
-        //printf("%s\n", unit.ToString().c_str());
-        int checked_points_count = quadtree.ForEachPointInBB(area_bbox,
+        {
+            std::lock_guard<std::mutex> lk(use_quadtree);
+            int checked_points_count = quadtree.ForEachPointInBB(area_bbox,
                                     [&v1, &v2, &v3, &units_in_fov]
                                     (const vec2D& point, const Unit* unit_ptr)
                                     {
@@ -76,11 +84,13 @@ public:
                                             //printf("[%f, %f](%f)\n", point.x, point.y, (point - v1).length());
                                         }
                                     });
+        }
         //printf("%i\n", checked_points_count);
         return units_in_fov;
     }
 private:
     std::vector<Unit> units;
     Quadtree<Unit, 4> quadtree;
-    ThreadPool thread_pool;
+    std::mutex use_quadtree;
+    ThreadPool *thread_pool;
 };

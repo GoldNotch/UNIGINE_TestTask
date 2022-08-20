@@ -63,7 +63,8 @@ public:
         {
             auto node = way.top();
             way.pop();
-            for(size_t i = 0; i < node->points_count; ++i){
+            for(size_t i = 0; i < node->points_count; ++i)
+            {
                 if (area_bbox.ContainsPoint(node->points[i].point))
                     process_point(node->points[i].point, node->points[i].object_weak_ptr);
                 checked_points_count++;

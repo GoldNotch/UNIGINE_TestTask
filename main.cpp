@@ -1,7 +1,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include "Level.hpp"
-#include <thread>
 #include <random>
 
 using namespace std;
@@ -19,11 +18,12 @@ static inline vec2D randomVec2D(float min = -1.0f, float max = 1.0f)
 int main()
 {
     srand(time(NULL));
-    const size_t UnitsCount = 3000;
+    const size_t UnitsCount = 10000;
     const float FOV = 135.0f;
     const float view_distance = 2.0f;
     const float max_scene_size = 10.0f;
-    Level l(UnitsCount, max_scene_size);
+    ThreadPool thread_pool(4);
+    Level l(UnitsCount, max_scene_size, &thread_pool);
     //generate units
     for(size_t i = 0; i < UnitsCount; ++i)
     {
@@ -34,12 +34,23 @@ int main()
         //printf("%s\n", unit.ToString().c_str());//to show info about units
     }
 
-    size_t viewed_units_count[UnitsCount];
-    l.ForEachUnit([&l, &viewed_units_count](size_t id, const Unit& unit){
-                        viewed_units_count[id] = l.GetViewedUnitsCount(unit);
+
+    size_t viewed_units_counts[UnitsCount];
+    std::atomic<size_t> proceed_units_count;
+    proceed_units_count = 0;
+    std::condition_variable cv;
+    std::mutex mutex;
+    std::unique_lock<std::mutex> lk(mutex);
+
+    l.ForEachUnit([&](size_t id, const Unit& unit){
+                        viewed_units_counts[id] = l.GetViewedUnitsCount(unit);
+                        proceed_units_count++;
+                        cv.notify_one();
                   });
 
+    cv.wait(lk, [&]{return proceed_units_count == UnitsCount;});
+
     /*for(size_t i = 0; i < UnitsCount; ++i)
-        printf("unit %llu: %llu\n", i, viewed_units_count[i]);*/
+        printf("unit %llu: %llu\n", i, viewed_units_counts[i]);*/
 	return 0;
 }
