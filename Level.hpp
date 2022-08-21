@@ -39,7 +39,7 @@ public:
                 process_unit(i, units[i]);
     }
 
-    //return how many units viewed by the unit. Complexity: O()
+    //return how many units viewed by the unit. Complexity is complexity of quadtree traverse - O((d+1)*n), n - 16
     inline size_t GetViewedUnitsCount(const Unit& unit) const
     {
         //build field of view as triangle with vertices v1, v2, v3
@@ -74,6 +74,6 @@ public:
 
 private:
     std::vector<Unit> units;
-    Quadtree<Unit, 8> quadtree;
+    Quadtree<Unit, 16> quadtree;
     ThreadPool *thread_pool;
 };

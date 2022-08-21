@@ -18,7 +18,7 @@ static inline vec2D randomVec2D(float min = -1.0f, float max = 1.0f)
 int main()
 {
     srand(time(NULL));
-    const size_t UnitsCount = 1000;
+    const size_t UnitsCount = 10000;
     const float FOV = 135.0f;
     const float view_distance = 2.0f;
     const float max_scene_size = 10.0f;// scene will be from -max_scene_size to max_scene_size
@@ -54,7 +54,7 @@ int main()
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double, std::milli> elapsed = end - start;
     printf("units traverse takes %f millisec\n", elapsed.count());
-
+    system("pause");
     //output result. For 10000 units is takes long time
     for(size_t i = 0; i < UnitsCount; ++i){
         printf("unit %llu: %llu\n", i, viewed_units_counts[i]);

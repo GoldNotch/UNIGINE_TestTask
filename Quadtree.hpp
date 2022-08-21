@@ -52,13 +52,13 @@ public:
     }
 
     using PointProcessingFunc = std::function<void(const vec2D& point, const T* object_weak_ptr)>;
-    //returns checked points count. Traverse quadtree. Complexity: O((d + 1)n), where d - height of tree and n - count of points in tree
+    //returns checked points count. Traverse quadtree. Complexity: O((d + 1)n), where d - height of tree and n - node_capacity
     inline int ForEachPointInBB(const BoundingBox& area_bbox, const PointProcessingFunc& process_point) const
     {
         if (!root.bbox.Intersects(area_bbox))
             return 0;
         size_t checked_points_count = 0;
-        std::stack<const TreeNode*> way;
+        std::stack<const TreeNode*> way;//better create stack as array, and limit height of tree
         way.push(&root);
         while(!way.empty())
         {
@@ -97,7 +97,7 @@ private:
     struct TreeNode
     {
         BoundingBox bbox;
-        std::vector<TreeNode> children;
+        std::vector<TreeNode> children;//don't store children in node, better make global storage in tree and points on nodes from there
         PointData points[node_capacity];
         size_t points_count = 0;
 
