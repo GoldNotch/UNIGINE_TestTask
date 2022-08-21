@@ -34,7 +34,7 @@ public:
         root.bbox.height = 2 * scene_half_size;
     }
 
-    void AddPoint(const vec2D& point, const T* object_weak_ptr)
+    inline void AddPoint(const vec2D& point, const T* object_weak_ptr)
     {
         if (root.bbox.ContainsPoint(point)){
             TreeNode* cur_node = &root;
@@ -52,7 +52,8 @@ public:
     }
 
     using PointProcessingFunc = std::function<void(const vec2D& point, const T* object_weak_ptr)>;
-    int ForEachPointInBB(const BoundingBox& area_bbox, const PointProcessingFunc& process_point) const
+    //returns checked points count. Traverse quadtree. Complexity: O((d + 1)n), where d - height of tree and n - count of points in tree
+    inline int ForEachPointInBB(const BoundingBox& area_bbox, const PointProcessingFunc& process_point) const
     {
         if (!root.bbox.Intersects(area_bbox))
             return 0;
@@ -65,11 +66,13 @@ public:
             way.pop();
             for(size_t i = 0; i < node->points_count; ++i)
             {
-                if (area_bbox.ContainsPoint(node->points[i].point))
-                    process_point(node->points[i].point, node->points[i].object_weak_ptr);
+                auto point_data = node->points[i];//for thread-safety it must be atomic
+                if (area_bbox.ContainsPoint(point_data.point))
+                    process_point(point_data.point, point_data.object_weak_ptr);
                 checked_points_count++;
             }
-            for(auto& quad: node->children)
+
+            for(auto& quad: node->children)//for thread-safety it must be atomic
                 if (quad.bbox.Intersects(area_bbox))
                     way.push(&quad);
         }

@@ -4,15 +4,13 @@
 #include <string>
 
 
-static inline float fast_sqrt(float number)
+static constexpr inline float fast_sqrt(float number)
 {
-	long i;
-	float x2, y;
 	const float threehalfs = 1.5F;
 
-	x2 = number * 0.5F;
-	y  = number;
-	i  = * ( long * ) &y;                       // evil floating point bit level hacking
+	float x2 = number * 0.5F;
+	float y  = number;
+	long i  = * ( long * ) &y;                       // evil floating point bit level hacking
 	i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
 	y  = * ( float * ) &i;
 	y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
@@ -84,7 +82,7 @@ struct vec2D
 	{
 		return std::sqrt(x * x + y * y);
 	}
-	inline float fast_length() const noexcept
+	inline constexpr float fast_length() const noexcept
 	{
 		return fast_sqrt(x * x + y * y);
 	}
@@ -98,5 +96,15 @@ struct vec2D
 	float x, y;
 };
 
-//----------- constants ----------------
-static const vec2D zero_vec = vec2D(0.0f, 0.0f);
+inline static constexpr float sign(const vec2D& p, const vec2D& v1, const vec2D& v2) noexcept
+{
+    return (p.x - v2.x) * (v1.y - v2.y) - (v1.x - v2.x) * (p.y - v2.y);
+}
+
+inline static constexpr bool IsPointInTriangle(const vec2D& p, const vec2D& v1, const vec2D& v2, const vec2D& v3) noexcept
+{
+    bool b1 = sign(p, v1, v2) < 0.0f;
+    bool b2 = sign(p, v2, v3) < 0.0f;
+    bool b3 = sign(p, v3, v1) < 0.0f;
+    return (b1 == b2) && (b2 == b3);
+}
